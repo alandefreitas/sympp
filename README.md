@@ -54,9 +54,29 @@ Symbolic computing deals with algorithms that manipulate mathematical expression
 
 For complete examples, see the directory [examples](./examples/).
 
-### Introduction
+### Hello World
 
-> ![Work in progress](https://image.flaticon.com/icons/png/128/2918/2918921.png) Work in progress
+By passing a string literal to a `sym` object, we create a symbolic variable:
+
+```cpp
+#include <sympp/sympp.h>
+
+int main() {
+    using namespace sympp;
+    using std::cout, std::endl;
+    sym a("Hello");
+    sym b("World");
+    sym c = a + b;
+    cout << c << endl;
+    return 0;
+}
+```
+
+Instead of trying to somehow immediately evaluate the expression, the result (`c`) stores the complete symbolic expression:
+
+```console
+Hello+World
+```
 
 ### Operations
 
