@@ -7,6 +7,7 @@
 #include <sympp/functions/operators.h>
 #include <sympp/node/function/cos.h>
 #include <sympp/node/function/log.h>
+#include <sympp/node/function/pow.h>
 #include <sympp/node/function/sin.h>
 #include <sympp/node/terminal/constant.h>
 
@@ -22,8 +23,8 @@ namespace sympp {
 
     sym ln(const sym &s) { return sym(log(constant::e(), s)); }
 
-    sym exp(const sym &s) { return constant::e() ^ s; }
+    sym exp(const sym &s) { return sym(sympp::pow(sym(constant::e()), s)); }
 
-    sym sqrt(const sym &s) { return s ^ (0.5); }
+    sym sqrt(const sym &s) { return sym(sympp::pow(s, sym(0.5))); }
 
 } // namespace sympp

@@ -187,24 +187,6 @@ namespace sympp {
         return s1;
     }
 
-    sym operator^(const sym &s, const sym &n) { return sym(pow(s, n)); }
-
-    sym operator^(const node_interface &s, const sym &n) {
-        return sym(pow(sym(s), n));
-    }
-
-    sym operator^(const sym &s, const node_interface &n) {
-        return sym(pow(s, sym(n)));
-    }
-
-    sym operator^(const sym &s, int i) { return sym(pow(s, sym(i))); }
-
-    sym operator^(int i, const sym &s) { return sym(pow(sym(i), s)); }
-
-    sym operator^(const sym &s, double d) { return sym(pow(s, sym(d))); }
-
-    sym operator^(double d, const sym &s) { return sym(pow(sym(d), s)); }
-
     bool operator==(const sym &s1, const sym &s2) {
         return s1.compare(s2) == 0;
     }

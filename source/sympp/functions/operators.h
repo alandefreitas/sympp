@@ -123,20 +123,6 @@ namespace sympp {
 
     sym &operator/=(sym &, const double &);
 
-    sym operator^(const sym &, const sym &);
-
-    sym operator^(const node_interface &, const sym &);
-
-    sym operator^(const sym &, const node_interface &);
-
-    sym operator^(const sym &, int);
-
-    sym operator^(int, const sym &);
-
-    sym operator^(const sym &, double);
-
-    sym operator^(double, const sym &);
-
     bool operator==(const sym &, const sym &);
 
     bool operator==(const node_interface &, const sym &);
