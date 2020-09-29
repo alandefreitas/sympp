@@ -1,2 +1,5 @@
 add_executable(example_hello_world hello_world.cpp)
 target_link_libraries(example_hello_world PRIVATE sympp)
+
+add_executable(example_operations operations.cpp)
+target_link_libraries(example_operations PRIVATE sympp)
