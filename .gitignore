@@ -46,3 +46,6 @@ gh-md-toc
 *.exe
 *.out
 *.app
+
+# OS hidden files
+.DS_Store
