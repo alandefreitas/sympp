@@ -27,6 +27,27 @@ Symbolic computing deals with algorithms that manipulate mathematical expression
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<details>
+<summary>Table of Contents</summary>
+
+- [Examples](#examples)
+  - [Introduction](#introduction)
+  - [Operations](#operations)
+  - [Equations](#equations)
+  - [Simplification](#simplification)
+  - [Compiling expressions](#compiling-expressions)
+- [Benchmarks](#benchmarks)
+- [Integration](#integration)
+  - [Packages](#packages)
+  - [Build from source](#build-from-source)
+  - [CMake targets](#cmake-targets)
+  - [Other build systems](#other-build-systems)
+- [Limitations and Roadmap](#limitations-and-roadmap)
+- [Contributing](#contributing)
+  - [Contributors](#contributors)
+- [Thanks](#thanks)
+
+</details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Examples
