@@ -10,6 +10,7 @@
 #include <sympp/node/function/pow.h>
 #include <sympp/node/function/sin.h>
 #include <sympp/node/operation/summation.h>
+#include <sympp/node/terminal/constant.h>
 #include <sympp/node/terminal/integer.h>
 #include <vector>
 
@@ -377,9 +378,8 @@ namespace sympp {
                 }
                 if (i->type() != typeid(product) && i->type() != typeid(pow) &&
                     i->type() != typeid(sin) && i->type() != typeid(cos) &&
-                    i->type() != typeid(log) &&
-                    i->type() != typeid(function_interface) &&
-                    i->type() != typeid(number_interface)) {
+                    i->type() != typeid(log) && !i->is_variable() &&
+                    !i->is_function() && !i->is_number() && !i->is_constant()) {
                     os << "(";
                     i->stream(os, symbolic_format);
                     os << ")";
