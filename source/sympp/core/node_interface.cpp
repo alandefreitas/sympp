@@ -33,7 +33,7 @@ namespace sympp {
 
     std::optional<sym> node_interface::simplify(double ratio) {
         auto measure_fn = [](const node_interface &n) -> double {
-            return n.count_ops();
+            return static_cast<double>(n.count_ops());
         };
         return simplify(ratio, measure_fn);
     }
