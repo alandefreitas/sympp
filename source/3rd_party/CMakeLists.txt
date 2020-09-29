@@ -19,6 +19,7 @@ if (UNIX)
         target_compile_options(libtcc PRIVATE -Wno-string-plus-int)
     else ()
         target_compile_options(libtcc PRIVATE -Wno-format-truncation)
+        target_compile_options(libtcc PRIVATE -Wno-unused-result)
         # Add threads to fix error “undefined reference to 'sem_init'
         target_link_libraries(libtcc ${CMAKE_THREAD_LIBS_INIT})
     endif ()
