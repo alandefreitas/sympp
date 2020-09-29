@@ -1,0 +1,94 @@
+name: SymPP
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'README.md'
+      - '.github/**'
+      - '!.github/workflows/build.yml'
+      - 'documentation/**'
+      - '.clang-format'
+      - '.gitignore'
+      - 'LICENSE'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'README.md'
+      - '.github/**'
+      - '!.github/workflows/build.yml'
+      - 'documentation/**'
+      - '.clang-format'
+      - '.gitignore'
+      - 'LICENSE'
+
+jobs:
+  Build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {
+            name: "Windows/Static/X64/Release",
+            os: windows-2019,
+            config: Release,
+            args: -G "Visual Studio 16 2019" -A x64,
+            get_core_cmd: "WMIC CPU Get DeviceID,NumberOfCores,NumberOfLogicalProcessors",
+            sudocmd: "",
+            artifact_name: "Windows",
+            cores: 2,
+          }
+          - {
+            name: "Linux/Static/X64/Release",
+            os: ubuntu-18.04,
+            config: Release,
+            args: "-DCMAKE_C_COMPILER=/usr/bin/gcc-8 -DCMAKE_CXX_COMPILER=/usr/bin/g++-8",
+            get_core_cmd: "lscpu",
+            sudocmd: "sudo",
+            artifact_name: "Linux",
+            cores: 2,
+          }
+          - {
+            name: "MacOSX/Static/X64/Release",
+            os: macos-10.15,
+            config: Release,
+            args: "",
+            get_core_cmd: "system_profiler SPHardwareDataType",
+            sudocmd: "sudo",
+            artifact_name: "MacOSX",
+            cores: 4,
+          }
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create Work Dir
+        run: mkdir build
+      - name: Get core number
+        run: ${{ matrix.config.get_core_cmd }}
+        continue-on-error: true
+      - name: Configure
+        working-directory: ./build
+        run: |
+          cmake .. ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }}
+      - name: Build
+        working-directory: ./build
+        run: cmake --build . -j ${{ matrix.config.cores }} --config ${{ matrix.config.config }}
+      - name: Test
+        working-directory: ./build
+        run: ctest -j ${{ matrix.config.cores }} -C Release
+      - name: Install
+        working-directory: ./build
+        run: ${{ matrix.config.sudocmd }} cmake --install .
+      - name: Create packages
+        working-directory: ./build
+        run: ${{ matrix.config.sudocmd }} cpack
+      - name: Archive Installer Packages
+        uses: actions/upload-artifact@v2
+        with:
+          name: Binary Packages ${{ matrix.config.artifact_name }}
+          path: build/sympp-?.?.?-*.*
+      - name: Archive Installer Packages as is
+        uses: kittaakos/upload-artifact-as-is@v0
+        with:
+          path: build/sympp-?.?.?-*.*
