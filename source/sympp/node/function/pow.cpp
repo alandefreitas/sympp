@@ -167,7 +167,7 @@ namespace sympp {
                 this->child_nodes_.front().root_node()->c_code(
                     function_level, sum_level, prod_level, leaf, code_aux,
                     code);
-            } else if (code_aux.size() > 1 and function_level == 1) {
+            } else if (code_aux.size() > 1 && function_level == 1) {
                 this->child_nodes_.front().root_node()->c_code(
                     function_level, sum_level, prod_level, leaf, code_aux,
                     code);
@@ -175,7 +175,7 @@ namespace sympp {
                 // Internal function and summation
                 std::string temp = code_aux.top();
                 code_aux.pop();
-                // Retira somatorio da pilha
+                // Take summation from stack
                 code += code_aux.top();
                 code_aux.pop();
                 code += " pow(";

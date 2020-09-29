@@ -115,6 +115,8 @@ namespace sympp {
             return lhs().compare(rhs()) <= 0;
         case statement_type::inequality:
             return lhs().compare(rhs()) != 0;
+        default:
+            throw std::runtime_error("Invalid statement type");
         }
     }
 
@@ -144,6 +146,8 @@ namespace sympp {
             return r - l;
         case statement_type::inequality:
             return -std::abs(l - r);
+        default:
+            throw std::runtime_error("Invalid statement type");
         }
     }
 
@@ -172,6 +176,8 @@ namespace sympp {
             s.simplify();
             return s;
         }
+        default:
+            throw std::runtime_error("Invalid statement type");
         }
     }
 
@@ -209,6 +215,8 @@ namespace sympp {
                 return -std::abs(l(bool_values, int_values, double_values) -
                                  r(bool_values, int_values, double_values));
             };
+        default:
+            throw std::runtime_error("Invalid statement type");
         }
     }
     void statement::c_code(int &, int &, int &, bool &,

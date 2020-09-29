@@ -19,10 +19,10 @@ namespace sympp {
         } else {
             throw sym_error(sym_error::AbstractClass);
         }
-    };
+    }
 
     summation::summation(summation &&v) noexcept
-        : internal_node_interface<summation>(v){};
+        : internal_node_interface<summation>(v) {}
 
     summation::summation(const sym &a, const sym &b)
         : summation(std::vector<sym>({a, b})) {}

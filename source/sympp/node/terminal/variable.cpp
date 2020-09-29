@@ -143,6 +143,7 @@ namespace sympp {
                 code += std::to_string(this->index_);
                 code += "]";
             }
+            break;
         }
         case numeric_type::var_integer: {
             if (leaf) {
@@ -153,6 +154,7 @@ namespace sympp {
                 code += std::to_string(this->index_);
                 code += "]";
             }
+            break;
         }
         case numeric_type::var_real: {
             if (leaf) {
@@ -163,6 +165,7 @@ namespace sympp {
                 code += std::to_string(this->index_);
                 code += "]";
             }
+            break;
         }
         }
     }
@@ -200,8 +203,7 @@ namespace sympp {
             auto search_name = symbols_names->find(this->name_);
             // If not found, add new variable and index
             if (search_name == symbols_names->end()) {
-
-                int cur_index = symbols_names->size();
+                int cur_index = static_cast<int>(symbols_names->size());
                 symbols_names->operator[](this->name_) = cur_index;
                 symbols_vars->operator[](cur_index) = (sym) * this;
                 this->index_ = cur_index;

@@ -7,21 +7,19 @@
 
 // Internal
 #include "log.h"
-#include <sympp/core/sym.h>
 #include <sympp/functions/mathematics.h>
 #include <sympp/functions/symbolic.h>
 #include <sympp/node/function/pow.h>
 #include <sympp/node/operation/product.h>
 #include <sympp/node/terminal/constant.h>
 #include <sympp/node/terminal/integer.h>
-#include <sympp/node/terminal/number_interface.h>
 #include <sympp/node/terminal/real.h>
 
 namespace sympp {
 
     log::log(const log &s) = default;
 
-    log::log(log &&v) noexcept : function_interface(v){};
+    log::log(log &&v) noexcept : function_interface(std::move(v)) {}
 
     log::log(const sym &x) : log(x, constant::e()) {}
 
@@ -161,7 +159,7 @@ namespace sympp {
                 this->child_nodes_.front().root_node()->c_code(
                     function_level, sum_level, prod_level, leaf, code_aux,
                     code);
-            } else if (code_aux.size() > 1 and function_level == 1) {
+            } else if (code_aux.size() > 1 && function_level == 1) {
                 this->child_nodes_.front().root_node()->c_code(
                     function_level, sum_level, prod_level, leaf, code_aux,
                     code);

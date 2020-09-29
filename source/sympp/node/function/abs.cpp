@@ -17,7 +17,7 @@ namespace sympp {
 
     abs::abs(const abs &s) = default;
 
-    abs::abs(abs &&v) noexcept : function_interface(v){};
+    abs::abs(abs &&v) noexcept : function_interface(v) {}
 
     abs::abs(const sym &s) : function_interface("abs", {s}) {}
 
