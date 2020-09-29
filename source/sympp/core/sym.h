@@ -5,6 +5,7 @@
 
 // C++
 #include <cstddef>
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <type_traits>
@@ -22,24 +23,43 @@ namespace sympp {
     /// sym.h cannot include node headers because
     /// node headers need to include sym.h
     class node_interface;
+
     template <class T> class number;
+
     class number_interface;
+
     class function_interface;
+
     class boolean;
+
     class integer;
+
     class real;
+
     class rational;
+
     class variable;
+
     class constant;
+
     class summation;
+
     class product;
+
     class abs;
+
     class cos;
+
     class cosh;
+
     class log;
+
     class pow;
+
     class sin;
+
     class sinh;
+
     class statement;
 
     /// Type of a tiny c compiler function
@@ -85,20 +105,35 @@ namespace sympp {
 
         /// Construct a sym from any object that inherits from node_interface
         explicit sym(boolean &&);
+
         explicit sym(integer &&);
+
         explicit sym(real &&);
+
         explicit sym(rational &&);
+
         explicit sym(variable &&);
+
         explicit sym(constant &&);
+
         explicit sym(summation &&);
+
         explicit sym(product &&);
+
         explicit sym(abs &&);
+
         explicit sym(cos &&);
+
         explicit sym(cosh &&);
+
         explicit sym(log &&);
+
         explicit sym(pow &&);
+
         explicit sym(sin &&);
+
         explicit sym(sinh &&);
+
         explicit sym(statement &&);
 
         /// Construct a sym of an specific type
@@ -131,9 +166,17 @@ namespace sympp {
         /// Construct a constant from a symbol name
         explicit sym(std::string_view, const sym &);
 
+        /// Construct variable from a string
+        explicit sym(std::string_view);
+
         /// Construct variable from a std::string
-        explicit sym(std::string_view,
-                     numeric_type number_type = numeric_type::var_real);
+        explicit sym(std::string_view, numeric_type number_type);
+
+        /// Forward any constructor with char* to a string_view
+        template <class... Args>
+        explicit sym(const char *str, Args &&... args)
+            : sym(std::string_view(str), std::forward<Args>(args)...) {}
+
         explicit sym(numeric_type number_type, std::string_view);
 
         /// Destructor
@@ -207,11 +250,17 @@ namespace sympp {
         /// Substitute instances of a variable in a expression
         /// The symbol might need to change its type
         sym &subs(const sym &, const sym &);
+
         sym &subs(const sym &, bool);
+
         sym &subs(const sym &, int);
+
         sym &subs(const sym &, double);
+
         sym &subs(const sym &);
+
         sym &subs(const statement &);
+
         sym &subs(const std::vector<statement> &);
 
         /// Compare two symbols for <, ==, >
@@ -224,9 +273,13 @@ namespace sympp {
 
         /// Get coefficients
         [[nodiscard]] sym coeff(const sym &) const;
+
         [[nodiscard]] sym coeff(const node_interface &) const;
+
         [[nodiscard]] sym coeff(const sym &, int) const;
+
         [[nodiscard]] sym coeff(int) const;
+
         [[nodiscard]] sym coeff(double) const;
 
         /// Commutative value
@@ -295,20 +348,35 @@ namespace sympp {
         sym &operator=(const node_interface &);
 
         sym &operator=(boolean &&);
+
         sym &operator=(integer &&);
+
         sym &operator=(real &&);
+
         sym &operator=(rational &&);
+
         sym &operator=(variable &&);
+
         sym &operator=(constant &&);
+
         sym &operator=(summation &&);
+
         sym &operator=(product &&);
+
         sym &operator=(abs &&);
+
         sym &operator=(cos &&);
+
         sym &operator=(cosh &&);
+
         sym &operator=(log &&);
+
         sym &operator=(pow &&);
+
         sym &operator=(sin &&);
+
         sym &operator=(sinh &&);
+
         sym &operator=(statement &&);
 
         /// Attribution operator from sym
