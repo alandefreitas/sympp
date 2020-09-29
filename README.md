@@ -31,7 +31,7 @@ Symbolic computing deals with algorithms that manipulate mathematical expression
 <summary>Table of Contents</summary>
 
 - [Examples](#examples)
-  - [Introduction](#introduction)
+  - [Hello World](#hello-world)
   - [Operations](#operations)
   - [Equations](#equations)
   - [Simplification](#simplification)
