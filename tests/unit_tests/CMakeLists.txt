@@ -24,27 +24,27 @@ include(${Catch2_SOURCE_DIR}/contrib/Catch.cmake)
 #######################################################
 ### Test all node types                             ###
 #######################################################
-# add_library(test_node_types node_types.cpp)
-# target_link_libraries(test_node_types PRIVATE sympp Catch2)
-# catch_discover_tests(test_node_types)
+add_executable(test_node_types node_types.cpp)
+target_link_libraries(test_node_types PRIVATE sympp Catch2)
+catch_discover_tests(test_node_types)
 
 #######################################################
 ### Test sym object                                 ###
 #######################################################
-# add_library(test_sym sym.cpp)
+# add_executable(test_sym sym.cpp)
 # target_link_libraries(test_sym PRIVATE sympp Catch2)
 # catch_discover_tests(test_sym)
 
 #######################################################
 ### Test symbolic functions                         ###
 #######################################################
-# add_library(test_sym_functions sym_functions.cpp)
+# add_executable(test_sym_functions sym_functions.cpp)
 # target_link_libraries(test_sym_functions PRIVATE sympp Catch2)
 # catch_discover_tests(test_sym_functions)
 
 #######################################################
 ### Test compiler                                   ###
 #######################################################
-# add_library(test_sym_functions sym_functions.cpp)
+# add_executable(test_sym_functions sym_functions.cpp)
 # target_link_libraries(test_sym_functions PRIVATE sympp Catch2)
 # catch_discover_tests(test_sym_functions)
