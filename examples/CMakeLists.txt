@@ -1,2 +1,2 @@
-add_executable(example_sympp main.cpp)
-target_link_libraries(example_sympp PRIVATE sympp)
+add_executable(example_hello_world hello_world.cpp)
+target_link_libraries(example_hello_world PRIVATE sympp)
