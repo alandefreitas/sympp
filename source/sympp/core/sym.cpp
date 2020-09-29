@@ -2,8 +2,8 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <string_view>
 #include <typeinfo>
-#include <vector>
 
 // TinyCC
 #include <tcc/libtcc_ext.h>
@@ -85,8 +85,12 @@ namespace sympp {
     sym::sym(std::string_view s, const sym &v)
         : root_node_(new constant(s, v)) {}
 
+    sym::sym(std::string_view s)
+        : root_node_(new variable(s, numeric_type::var_real)) {}
+
     sym::sym(std::string_view s, numeric_type n)
         : root_node_(new variable(s, n)) {}
+
     sym::sym(numeric_type n, std::string_view s)
         : root_node_(new variable(n, s)) {}
 
@@ -434,7 +438,7 @@ namespace sympp {
     void sym::save_c_code(std::string_view file_name) const {
         std::string code = this->c_code();
         std::ofstream out;
-        out.open(file_name);
+        out.open(file_name.data());
         out << code;
         out.close();
     }
