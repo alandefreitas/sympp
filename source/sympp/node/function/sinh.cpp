@@ -140,6 +140,8 @@ namespace sympp {
         return std::nullopt;
     }
 
+    const std::type_info &sinh::type() const { return typeid(sinh); }
+
     node_interface *sinh::clone() const {
         return dynamic_cast<node_interface *>(new sinh(*this));
     }

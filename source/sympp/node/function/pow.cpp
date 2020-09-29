@@ -465,5 +465,6 @@ namespace sympp {
         }
         return std::nullopt;
     }
+    const std::type_info &pow::type() const { return typeid(decltype(*this)); }
 
 } // namespace sympp

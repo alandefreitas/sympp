@@ -140,6 +140,8 @@ namespace sympp {
         return std::nullopt;
     }
 
+    const std::type_info &sin::type() const { return typeid(sin); }
+
     node_interface *sin::clone() const {
         return dynamic_cast<node_interface *>(new sin(*this));
     }

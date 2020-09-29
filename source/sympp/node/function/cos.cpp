@@ -132,7 +132,7 @@ namespace sympp {
         }
         return std::nullopt;
     }
-
+    const std::type_info &cos::type() const { return typeid(decltype(*this)); }
     node_interface *cos::clone() const {
         return dynamic_cast<node_interface *>(new cos(*this));
     }

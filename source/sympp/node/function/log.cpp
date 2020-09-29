@@ -315,6 +315,8 @@ namespace sympp {
         return std::nullopt;
     }
 
+    const std::type_info &log::type() const { return typeid(log); }
+
     node_interface *log::clone() const {
         return dynamic_cast<node_interface *>(new log(*this));
     }

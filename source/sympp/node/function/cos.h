@@ -32,10 +32,14 @@ namespace sympp {
                     std::string &code) const override;
       public /* override node interface */:
       public /* override internal node interface */:
+        [[nodiscard]] const std::type_info &type() const override;
         [[nodiscard]] node_interface *clone() const override;
       public /* override function interface */:
         std::optional<sym> simplify(double ratio,
                                     complexity_lambda func) override;
     };
+
+    using cosine = cos;
+
 } // namespace sympp
 #endif // SYMPP_COS_H

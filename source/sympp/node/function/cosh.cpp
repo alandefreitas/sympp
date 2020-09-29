@@ -133,6 +133,8 @@ namespace sympp {
         return std::nullopt;
     }
 
+    const std::type_info &cosh::type() const { return typeid(cosh); }
+
     node_interface *cosh::clone() const {
         return dynamic_cast<node_interface *>(new cosh(*this));
     }

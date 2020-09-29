@@ -46,12 +46,16 @@ namespace sympp {
         std::optional<sym> expand_power_exp() override;
         std::optional<sym> expand_power_base() override;
       public /* override internal node interface */:
+        [[nodiscard]] const std::type_info &type() const override;
         [[nodiscard]] node_interface *clone() const override;
       public /* override function interface */:
         std::optional<sym> simplify(double ratio,
                                     complexity_lambda func) override;
         void stream(std::ostream &os, bool symbolic_format) const override;
     };
+
+    using power = sympp::pow;
+
 } // namespace sympp
 
 #endif // SYMPP_POW_H

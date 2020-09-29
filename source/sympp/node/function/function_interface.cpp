@@ -101,16 +101,14 @@ namespace sympp {
             }
         }
         if (!child_nodes_.empty()) {
-            const auto p = dynamic_cast<const function_interface *>(this);
-            const bool is_function = p != nullptr;
             const bool is_variable = type() == typeid(variable);
-            os << ((is_function || is_variable) ? "[" : "(");
+            os << ((is_variable) ? "[" : "(");
             child_nodes_.front().stream(os, symbolic_format);
             for (i = ++child_nodes_.begin(); i != child_nodes_.end(); ++i) {
                 os << ", ";
                 i->stream(os, symbolic_format);
             }
-            os << ((is_function || is_variable) ? "]" : ")");
+            os << ((is_variable) ? "]" : ")");
         }
     }
 
