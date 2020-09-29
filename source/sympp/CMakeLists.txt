@@ -63,7 +63,7 @@ add_library(sympp
 
         # Header to include everything
         sympp.h
-        )
+)
 
 target_include_directories(sympp
         PUBLIC $<BUILD_INTERFACE:${SYMPP_ROOT_DIR}/source>
@@ -71,10 +71,8 @@ target_include_directories(sympp
 
 target_compile_features(sympp PUBLIC cxx_std_17)
 
-if (NOT WIN32)
-    if (NOT APPLE)
-        target_link_libraries(sympp PUBLIC Threads::Threads)
-    endif ()
+if (NOT WIN32 AND NOT APPLE)
+    target_link_libraries(sympp PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 endif ()
 
 target_link_libraries(sympp PRIVATE libtcc)
@@ -91,8 +89,10 @@ if (BUILD_WITH_PEDANTIC_WARNINGS)
         target_compile_options(sympp PUBLIC /W4 /WX)
     else ()
         target_compile_options(sympp PUBLIC -Wall -Wextra -pedantic -Werror)
-        # -Wself-assign-overloaded has a false positive that breaks pybind11
-        target_compile_options(sympp PUBLIC -Wno-self-assign-overloaded)
+        if (APPLE)
+            # -Wself-assign-overloaded has a false positive that breaks pybind11
+            target_compile_options(sympp PUBLIC -Wno-self-assign-overloaded)
+        endif ()
     endif ()
 endif ()
 
