@@ -29,8 +29,5 @@ endif ()
 if (NOT WIN32)
     if (NOT APPLE)
         find_package(Threads REQUIRED)
-        install(TARGETS Threads::Threads
-                EXPORT SymPPTargets
-                ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/SymPP)
     endif ()
 endif ()
