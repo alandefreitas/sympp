@@ -82,7 +82,7 @@ Hello+World
 
 Symbols can represent constants, variables, numbers, functions, or complete expressions:
 
-```
+```cpp
 #include <sympp/sympp.h>
 
 int main() {
