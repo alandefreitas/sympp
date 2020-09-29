@@ -1,8 +1,8 @@
 # Sym<sup>pp</sup>
 
-<!-- [![Build Status](https://img.shields.io/github/workflow/status/alandefreitas/sympp/SymPP?event=push&label=Build&logo=Github-Actions)](https://github.com/alandefreitas/sympp/actions?query=workflow%3ASymPP+event%3Apush) -->
+[![Build Status](https://img.shields.io/github/workflow/status/alandefreitas/sympp/SymPP?event=push&label=Build&logo=Github-Actions)](https://github.com/alandefreitas/sympp/actions?query=workflow%3ASymPP+event%3Apush)
+[![Website](https://img.shields.io/website-up-down-green-red/http/alandefreitas.github.io/sympp.svg?label=Documentation)](https://alandefreitas.github.io/sympp/)
 <!-- [![Latest Release](https://img.shields.io/github/release/alandefreitas/sympp.svg?label=Download)](https://GitHub.com/alandefreitas/sympp/releases/) -->
-<!-- [![Website lbesson.bitbucket.org](https://img.shields.io/website-up-down-green-red/http/alandefreitas.github.io/sympp.svg?label=Documentation)](https://alandefreitas.github.io/sympp/) -->
 
 ![Math](https://www.wellesley.edu/sites/default/files/styles/news_refresh_hero/public/assets/dailyshot/ds_461390782.jpg?itok=jr0Buv1t)
 
