@@ -22,9 +22,10 @@ namespace sympp {
 
     sym csc(const sym &);
 
-    sym sinh(const sym &);
+   // This two functions was definided in specific file
+   // sym sinh(const sym &);
 
-    sym cosh(const sym &);
+   // sym cosh(const sym &);
 
     sym ln(const sym &);
 

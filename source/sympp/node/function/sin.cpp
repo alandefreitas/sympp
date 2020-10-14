@@ -27,7 +27,8 @@ namespace sympp {
     double sin::evaluate(const std::vector<uint8_t> &bool_values,
                          const std::vector<int> &int_values,
                          const std::vector<double> &double_values) const {
-        return std::sin(this->child_nodes_.front().root_node()->evaluate(
+
+       return std::sin(this->child_nodes_.front().root_node()->evaluate(
             bool_values, int_values, double_values));
     }
 
@@ -116,6 +117,10 @@ namespace sympp {
         if (s.is_number()) {
             if (s.is_zero()) {
                 return sym(integer(0));
+            }
+            if (s.is_integer_number()) {
+                auto p = s.root_node_as<number_interface>();
+                return sym(real(std::sin(p->operator int ())));
             }
             if (s.is_real_number()) {
                 auto p = s.root_node_as<number_interface>();

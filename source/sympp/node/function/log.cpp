@@ -31,7 +31,10 @@ namespace sympp {
     double log::evaluate(const std::vector<uint8_t> &bool_values,
                          const std::vector<int> &int_values,
                          const std::vector<double> &double_values) const {
-        if (child_nodes_.back().compare(constant::e()) != 0) {
+
+        // if (child_nodes_.back().compare(constant::e()) != 0) {
+        // This line was changed, in another form a bad_cast error was presented
+        if(child_nodes_.back().begin()!=(constant::e().begin())){
             return std::log(child_nodes_.front().evaluate(
                        bool_values, int_values, double_values)) /
                    std::log(child_nodes_.back().evaluate(

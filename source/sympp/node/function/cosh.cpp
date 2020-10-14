@@ -116,6 +116,10 @@ namespace sympp {
             if (s.is_zero()) {
                 return sym(integer(1));
             }
+            if (s.is_integer_number()) {
+                auto p = s.root_node_as<number_interface>();
+                return sym(real(std::cosh(p->operator int())));
+            }
             if (s.is_real_number()) {
                 auto p = s.root_node_as<number_interface>();
                 return sym(real(std::cosh(p->operator double())));

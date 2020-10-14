@@ -26,6 +26,7 @@ namespace sympp {
     double abs::evaluate(const std::vector<uint8_t> &bool_values,
                          const std::vector<int> &int_values,
                          const std::vector<double> &double_values) const {
+
         return std::abs(this->child_nodes_.front().root_node()->evaluate(
             bool_values, int_values, double_values));
     }
@@ -33,17 +34,40 @@ namespace sympp {
     sym abs::evaluate_sym(const std::vector<uint8_t> &bool_values,
                           const std::vector<int> &int_values,
                           const std::vector<double> &double_values) const {
+
         auto ce = this->child_nodes_.front().root_node()->evaluate_sym(
-            bool_values, int_values, double_values);
+                bool_values, int_values, double_values);
+
         if (ce.is_number()) {
-            if (static_cast<double>(ce) < 0) {
-                return -1 * ce;
-            } else {
-                return ce;
+
+            auto p = ce.root_node_as<number_interface>();
+
+            if(ce.is_integer_number()){
+
+                if (static_cast<double>(p->operator int ()) < 0) {
+                    return sym(-1 * (p->operator int ()));
+                } else {
+                    return sym(p->operator int ());
+                }
+
             }
+
+            if(ce.is_real_number()){
+
+                if (static_cast<double>(p->operator double ()) < 0) {
+                    return sym(-1 * (p->operator double ()));
+                } else {
+                    return sym(p->operator double ());
+                }
+
+            }
+
+            return sym(abs(ce));
+
         } else {
             return sym(abs(ce));
         }
+
     }
 
     node_lambda abs::lambdify() const {

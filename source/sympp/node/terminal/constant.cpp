@@ -61,10 +61,12 @@ namespace sympp {
         return sym(integer(0));
     }
 
-    double constant::evaluate(const std::vector<uint8_t> &,
-                              const std::vector<int> &,
-                              const std::vector<double> &) const {
-        return static_cast<double>(value_);
+    double constant::evaluate(const std::vector<uint8_t> &bool_values,
+                              const std::vector<int> &int_values,
+                              const std::vector<double> &double_values) const {
+
+        return static_cast<double>(value_.root_node()->evaluate(bool_values, int_values, double_values));
+        // return static_cast<double>(value_);
     }
 
     sym constant::evaluate_sym(const std::vector<uint8_t> &bool_values,

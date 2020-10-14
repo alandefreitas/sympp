@@ -38,9 +38,9 @@ catch_discover_tests(test_node_types)
 #######################################################
 ### Test symbolic functions                         ###
 #######################################################
-# add_executable(test_sym_functions sym_functions.cpp)
-# target_link_libraries(test_sym_functions PRIVATE sympp Catch2)
-# catch_discover_tests(test_sym_functions)
+add_executable(test_sym_functions sym_functions.cpp)
+target_link_libraries(test_sym_functions PRIVATE sympp Catch2)
+catch_discover_tests(test_sym_functions)
 
 #######################################################
 ### Test compiler                                   ###

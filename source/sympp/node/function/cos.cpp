@@ -112,6 +112,8 @@ namespace sympp {
     std::optional<sym> cos::simplify(double, complexity_lambda) {
         sym &s = child_nodes_.front();
         s.simplify();
+
+
         if (s.is_number()) {
             if (s.is_zero()) {
                 return sym(integer(1));
@@ -119,6 +121,10 @@ namespace sympp {
             if (s.is_real_number()) {
                 auto p = s.root_node_as<number_interface>();
                 return sym(real(std::cos(p->operator double())));
+            }
+            if (s.is_integer_number()) {
+                auto p = s.root_node_as<number_interface>();
+                return sym(real(std::cos(p->operator int ())));
             }
         }
         if (s.is_product()) {
