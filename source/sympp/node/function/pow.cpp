@@ -34,8 +34,8 @@ namespace sympp {
     double pow::evaluate(const std::vector<uint8_t> &bool_values,
                          const std::vector<int> &int_values,
                          const std::vector<double> &double_values) const {
-        // if (this->child_nodes_.front().compare(constant::e()) == 0) {
-        if(child_nodes_.back().begin()==(constant::e().begin())){
+
+        if (constant::e().compare(this->child_nodes_.front()) == 0) {
             double e = 2.71828182845;
             auto exponent = this->child_nodes_.back().root_node();
             return std::pow(
@@ -55,8 +55,7 @@ namespace sympp {
                           const std::vector<int> &int_values,
                           const std::vector<double> &double_values) const {
 
-        if (child_nodes_.front().begin()==(constant::e().begin())) {
-        // if (this->child_nodes_.front().compare(constant::e()) == 0) {
+        if (constant::e().compare(this->child_nodes_.front()) == 0) {
             return sym(pow(constant::e(),
                            this->child_nodes_.back().root_node()->evaluate_sym(
                                bool_values, int_values, double_values)));
@@ -388,7 +387,7 @@ namespace sympp {
                 os << ")";
             }
         } else {
-            if (child_nodes_.front().compare(constant::e()) == 0) {
+            if (constant::e().compare(child_nodes_.front()) == 0) {
                 os << "std::exp(";
                 child_nodes_.front().stream(os, symbolic_format);
                 child_nodes_.back().stream(os, symbolic_format);

@@ -680,7 +680,7 @@ namespace sympp {
         throw sym_error(sym_error::NotNumeric);
     }
 
-    const std::type_info &sym::type() const { return this->root_node_->type(); }
+    const std::type_info &sym::type() const {return this->root_node_->type(); }
 
     bool sym::is_terminal() const { return this->root_node_->is_terminal(); }
 

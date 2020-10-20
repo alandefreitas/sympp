@@ -32,9 +32,7 @@ namespace sympp {
                          const std::vector<int> &int_values,
                          const std::vector<double> &double_values) const {
 
-        // if (child_nodes_.back().compare(constant::e()) != 0) {
-        // This line was changed, in another form a bad_cast error was presented
-        if(child_nodes_.back().begin()!=(constant::e().begin())){
+         if (constant::e().compare(child_nodes_.back()) != 0) {
             return std::log(child_nodes_.front().evaluate(
                        bool_values, int_values, double_values)) /
                    std::log(child_nodes_.back().evaluate(
@@ -52,6 +50,7 @@ namespace sympp {
             bool_values, int_values, double_values);
         auto b = child_nodes_.back().root_node()->evaluate_sym(
             bool_values, int_values, double_values);
+
         sym r(log(x, b));
         r.simplify();
         return r;
@@ -275,6 +274,7 @@ namespace sympp {
         sym &b = child_nodes_.front();
         b.simplify(ratio, func);
 
+
         // Trivial cases
         if (b.is_number() && b.is_one()) {
             return sym(integer(0));
@@ -292,25 +292,25 @@ namespace sympp {
         }
 
         // log_c(b) -> log(c) * ln(b)^-1
-        if (a.is_number() && a.is_real_number() && a.operator double() > 0.0) {
-            product p(sym(real(std::log(a.operator double()))),
+        if (a.is_number() && a.is_real_number() && a.root_node_as<number_interface>()->operator double() > 0.0) {
+            product p(sym(real(std::log(a.root_node_as<number_interface>()->operator double()))),
                       sym(pow(ln(b), sym(-1))));
             auto s = p.simplify(ratio, func);
             return s ? *s : sym(p);
         }
 
         // log_e(b) -> log(b) * ln(a)^-1
-        if (a.compare(constant::e()) == 0 && b.is_number()) {
-            product p(sym(real(std::log(b.operator double()))),
+        if (constant::e().compare(a) == 0 && b.is_number()) {
+            product p(sym(real(std::log(b.root_node_as<number_interface>()->operator double()))),
                       sym(pow(ln(a), sym(-1))));
             auto s = p.simplify(ratio, func);
             return s ? *s : sym(p);
         }
 
         // log_a(b) -> log(b) *
-        if (a.is_integer_number() && a.operator int() > 0) {
-            product p(sym(real(std::log(a.operator double()))),
-                      sym(pow(ln(b), sym(-1))));
+        if (a.is_integer_number() && ( a.root_node_as<number_interface>()->operator int() > 0 )) {
+            product p(sym(real(std::log(a.root_node_as<number_interface>()->operator double()))),
+                      sym(pow(ln(b),sym(-1))));
             auto s = p.simplify(ratio, func);
             return s ? *s : sym(p);
         }
@@ -326,7 +326,7 @@ namespace sympp {
 
     void log::stream(std::ostream &os, bool symbolic_format) const {
         if (child_nodes_.size() == 2 &&
-            child_nodes_.back().compare(constant::e()) == 0) {
+            constant::e().compare(child_nodes_.back()) == 0) {
             os << "ln(";
             child_nodes_.front().stream(os, symbolic_format);
             os << ")";

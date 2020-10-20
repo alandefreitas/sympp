@@ -28,19 +28,19 @@ namespace sympp {
     constant::constant(constant &&v) noexcept = default;
 
     constant::constant(std::string_view var_name, double d)
-        : name_(var_name), value_(d) {}
+            : name_(var_name), value_(d) {}
 
     constant::constant(std::string_view var_name, int d)
-        : name_(var_name), value_(d) {}
+            : name_(var_name), value_(d) {}
 
     constant::constant(std::string_view var_name, bool d)
-        : name_(var_name), value_(d) {}
+            : name_(var_name), value_(d) {}
 
     constant::constant(std::string_view var_name, const sym &d)
-        : name_(var_name), value_(d) {}
+            : name_(var_name), value_(d) {}
 
     constant::constant(const node_interface &v)
-        : constant(dynamic_cast<const constant &>(v)) {}
+            : constant(dynamic_cast<const constant &>(v)) {}
 
     constant::constant(const sym &v) : constant(*v.root_node()) {}
 
@@ -64,9 +64,7 @@ namespace sympp {
     double constant::evaluate(const std::vector<uint8_t> &bool_values,
                               const std::vector<int> &int_values,
                               const std::vector<double> &double_values) const {
-
         return static_cast<double>(value_.root_node()->evaluate(bool_values, int_values, double_values));
-        // return static_cast<double>(value_);
     }
 
     sym constant::evaluate_sym(const std::vector<uint8_t> &bool_values,
@@ -99,7 +97,9 @@ namespace sympp {
     constant::operator double() const {
         return static_cast<double>(this->value_);
     }
+
     constant::operator int() const { return static_cast<int>(this->value_); }
+
     constant::operator bool() const { return static_cast<bool>(this->value_); }
 
     const sym &constant::value() const { return value_; }

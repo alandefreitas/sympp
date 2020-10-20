@@ -10,7 +10,7 @@ TEST_CASE("Numbers") {
     std::vector<uint8_t> bool_val(1, false);
 
     using namespace sympp;
-    sym n(integer(10.3));
+    sym n(integer(10));
     REQUIRE(n == 10);
     REQUIRE(n > 9);
     REQUIRE(n < 11);
