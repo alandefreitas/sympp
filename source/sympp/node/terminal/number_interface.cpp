@@ -13,12 +13,20 @@
 #include "number_interface.h"
 #include <sympp/core/sym_error.h>
 #include <sympp/functions/symbolic.h>
+#include <sympp/node/terminal/constant.h>
 #include <sympp/node/terminal/integer.h>
+#include <sympp/node/terminal/real.h>
 
 namespace sympp {
     int number_interface::compare(const node_interface &node) const {
-        const auto &p = dynamic_cast<const number_interface &>(node);
-        return compare_number(p);
+
+        if (node.type() == typeid(constant)) {
+            const auto &cons = dynamic_cast<const constant &>(node);
+            return compare_number(real(cons.value()));
+        } else {
+            const auto &p = dynamic_cast<const number_interface &>(node);
+            return compare_number(p);
+        }
     }
 
     sym number_interface::operator+(const number_interface &n) const {

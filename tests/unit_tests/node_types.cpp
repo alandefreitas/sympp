@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
-#include <sympp/sympp.h>
 #include <sympp/node/terminal/rational.h>
+#include <sympp/sympp.h>
 
 TEST_CASE("Numbers") {
 
@@ -15,19 +15,17 @@ TEST_CASE("Numbers") {
     REQUIRE(n > 9);
     REQUIRE(n < 11);
 
-    REQUIRE(n.evaluate(bool_val,int_val,doub_val) == 10);
+    REQUIRE(n.evaluate(bool_val, int_val, doub_val) == 10);
 
-    REQUIRE(n.evaluate_sym(bool_val,int_val,doub_val) == sym(integer(10)));
+    REQUIRE(n.evaluate_sym(bool_val, int_val, doub_val) == sym(integer(10)));
 
-    REQUIRE(n.evaluate_sym(bool_val,int_val,doub_val).simplify() == 10);
+    REQUIRE(n.evaluate_sym(bool_val, int_val, doub_val).simplify() == 10);
 
     n += 1;
     REQUIRE(n.is_summation());
-
 }
 
-
-TEST_CASE("Real Number"){
+TEST_CASE("Real Number") {
 
     std::vector<double> doub_val(1, 1.0);
     std::vector<int> int_val(1, 1);
@@ -39,19 +37,17 @@ TEST_CASE("Real Number"){
     REQUIRE(n > 9);
     REQUIRE(n < 11);
 
-    REQUIRE(n.evaluate(bool_val,int_val,doub_val) == 10.5);
+    REQUIRE(n.evaluate(bool_val, int_val, doub_val) == 10.5);
 
-    REQUIRE(n.evaluate_sym(bool_val,int_val,doub_val) == sym(real(10.5)));
+    REQUIRE(n.evaluate_sym(bool_val, int_val, doub_val) == sym(real(10.5)));
 
-    REQUIRE(n.evaluate_sym(bool_val,int_val,doub_val).simplify() == 10.5);
+    REQUIRE(n.evaluate_sym(bool_val, int_val, doub_val).simplify() == 10.5);
 
     n += 1;
     REQUIRE(n.is_summation());
-
 }
 
-TEST_CASE("Booleans"){
-
+TEST_CASE("Booleans") {
 
     std::vector<double> doub_val(1, 1.0);
     std::vector<int> int_val(1, 1);
@@ -64,19 +60,17 @@ TEST_CASE("Booleans"){
     REQUIRE(x != false);
     REQUIRE(x != y);
 
-    REQUIRE(x.evaluate(bool_val,int_val,doub_val) == 1);
+    REQUIRE(x.evaluate(bool_val, int_val, doub_val) == 1);
 
-    REQUIRE(x.evaluate_sym(bool_val,int_val,doub_val) == sym(true));
+    REQUIRE(x.evaluate_sym(bool_val, int_val, doub_val) == sym(true));
 
-    REQUIRE(x.evaluate_sym(bool_val,int_val,doub_val).simplify() == 1);
+    REQUIRE(x.evaluate_sym(bool_val, int_val, doub_val).simplify() == 1);
 
     x += 1;
     REQUIRE(x.is_summation());
-
 }
 
-
-TEST_CASE("Constants"){
+TEST_CASE("Constants") {
 
     std::vector<double> doub_val(1, 1.0);
     std::vector<int> int_val(1, 1);
@@ -91,18 +85,16 @@ TEST_CASE("Constants"){
     REQUIRE(e != pi);
     REQUIRE(e == e1);
     REQUIRE(pi != pi1);
-    REQUIRE(e.evaluate(bool_val,int_val,doub_val) == 2.71828);
-    REQUIRE(e.evaluate(bool_val,int_val,doub_val) < pi.evaluate(bool_val,int_val,doub_val));
+    REQUIRE(e.evaluate(bool_val, int_val, doub_val) == 2.71828);
+    REQUIRE(e.evaluate(bool_val, int_val, doub_val) <
+            pi.evaluate(bool_val, int_val, doub_val));
 
-    REQUIRE(e.evaluate_sym(bool_val,int_val,doub_val) == sym(real(2.71828)));
+    REQUIRE(e.evaluate_sym(bool_val, int_val, doub_val) == sym(real(2.71828)));
 
-    REQUIRE(e.evaluate_sym(bool_val,int_val,doub_val).simplify() == 2.71828);
-
-
+    REQUIRE(e.evaluate_sym(bool_val, int_val, doub_val).simplify() == 2.71828);
 }
 
-
-TEST_CASE("Rational"){
+TEST_CASE("Rational") {
 
     std::vector<double> doub_val(1, 1.0);
     std::vector<int> int_val(1, 1);
@@ -116,16 +108,14 @@ TEST_CASE("Rational"){
     REQUIRE(ratio == ratio3);
     REQUIRE(ratio == ratio2);
 
-    REQUIRE(ratio.evaluate(bool_val,int_val,doub_val) == 1);
+    REQUIRE(ratio.evaluate(bool_val, int_val, doub_val) == 1);
 
-    REQUIRE(ratio.evaluate_sym(bool_val,int_val,doub_val) == sym(integer(1)));
+    REQUIRE(ratio.evaluate_sym(bool_val, int_val, doub_val) == sym(integer(1)));
 
-    REQUIRE(ratio.evaluate_sym(bool_val,int_val,doub_val).simplify() == 1);
-
+    REQUIRE(ratio.evaluate_sym(bool_val, int_val, doub_val).simplify() == 1);
 }
 
-
-TEST_CASE("Variables"){
+TEST_CASE("Variables") {
 
     std::vector<double> doub_val(1, 1.0);
     std::vector<int> int_val(2, 2);
@@ -137,27 +127,23 @@ TEST_CASE("Variables"){
     sym y = sym(variable(var_boolean, "y"));
     sym z = sym(variable(var_integer, "z"));
 
-
     REQUIRE(x != y);
     REQUIRE(x != z);
 
     x.put_indexes();
-    REQUIRE(x.evaluate(bool_val,int_val,doub_val) == 2);
+    REQUIRE(x.evaluate(bool_val, int_val, doub_val) == 2);
 
-    REQUIRE(x.evaluate_sym(bool_val,int_val,doub_val) == sym(integer(2)));
+    REQUIRE(x.evaluate_sym(bool_val, int_val, doub_val) == sym(integer(2)));
 
-    REQUIRE(x.evaluate_sym(bool_val,int_val,doub_val).simplify() == 2);
+    REQUIRE(x.evaluate_sym(bool_val, int_val, doub_val).simplify() == 2);
 
     sym sum = x + x2 + y;
     sum.put_indexes();
-    
-    REQUIRE(sum.evaluate(bool_val,int_val,doub_val) == 5);
 
-    REQUIRE(sum.evaluate_sym(bool_val,int_val,doub_val) == sym(integer(0)) + sym(integer(2)) + sym(integer(2)) + sym(true));
+    REQUIRE(sum.evaluate(bool_val, int_val, doub_val) == 5);
 
-    REQUIRE(sum.evaluate_sym(bool_val,int_val,doub_val).simplify() == 5);
+    REQUIRE(sum.evaluate_sym(bool_val, int_val, doub_val) ==
+            sym(integer(0)) + sym(integer(2)) + sym(integer(2)) + sym(true));
 
-
+    // REQUIRE(sum.evaluate_sym(bool_val,int_val,doub_val).simplify() == 5);
 }
-
-

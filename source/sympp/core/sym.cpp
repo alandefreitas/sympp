@@ -272,7 +272,7 @@ namespace sympp {
     }
 
     int sym::compare(const sym &s) const {
-        return this->compare(*s.root_node());
+        return this->root_node_->compare(*s.root_node());
     }
 
     int sym::compare(const node_interface &s) const {
@@ -680,13 +680,15 @@ namespace sympp {
         throw sym_error(sym_error::NotNumeric);
     }
 
-    const std::type_info &sym::type() const {return this->root_node_->type(); }
+    const std::type_info &sym::type() const { return this->root_node_->type(); }
 
     bool sym::is_terminal() const { return this->root_node_->is_terminal(); }
 
     bool sym::is_internal() const { return !this->root_node_->is_terminal(); }
 
     bool sym::is_number() const { return inherits_from<number_interface>(); }
+
+    bool sym::is_rational_number() const { return type() == typeid(rational); }
 
     bool sym::is_boolean_number() const { return type() == typeid(boolean); }
 

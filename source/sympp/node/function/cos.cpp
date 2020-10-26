@@ -12,6 +12,7 @@
 #include <sympp/node/operation/product.h>
 #include <sympp/node/terminal/integer.h>
 #include <sympp/node/terminal/number_interface.h>
+#include <sympp/node/terminal/rational.h>
 #include <sympp/node/terminal/real.h>
 
 namespace sympp {
@@ -113,18 +114,24 @@ namespace sympp {
         sym &s = child_nodes_.front();
         s.simplify();
 
-
         if (s.is_number()) {
             if (s.is_zero()) {
                 return sym(integer(1));
             }
+            auto p = s.root_node_as<number_interface>();
             if (s.is_real_number()) {
-                auto p = s.root_node_as<number_interface>();
                 return sym(real(std::cos(p->operator double())));
             }
             if (s.is_integer_number()) {
-                auto p = s.root_node_as<number_interface>();
-                return sym(real(std::cos(p->operator int ())));
+                return sym(real(std::cos(p->operator int())));
+            }
+            if (s.is_boolean_number()) {
+                return sym(real(std::cos(p->operator bool())));
+            }
+            if (s.is_rational_number()) {
+                auto rat = s.root_node_as<rational>();
+                return sym(
+                    real(std::cos(rat->numerator() / rat->denominator())));
             }
         }
         if (s.is_product()) {

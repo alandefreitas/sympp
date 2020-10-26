@@ -12,8 +12,8 @@
 #include <sympp/node/operation/summation.h>
 #include <sympp/node/terminal/constant.h>
 #include <sympp/node/terminal/integer.h>
-#include <vector>
 #include <sympp/node/terminal/real.h>
+#include <vector>
 
 namespace sympp {
 
@@ -268,8 +268,6 @@ namespace sympp {
         auto i = child_nodes_.begin();
         while (i != child_nodes_.end()) {
 
-            std::cout << std::endl << " *i " << *i << std::endl;
-
             sym &s = *i;
             if (s.is_product()) {
                 auto p = s.root_node_as<product>();
@@ -357,10 +355,8 @@ namespace sympp {
             }
         }
 
-
         bool not_one = !numbers.is_number() ||
                        !numbers.root_node_as<number_interface>()->is_one();
-
 
         std::cout << " numbers " << numbers << std::endl << std::endl;
 
@@ -413,11 +409,9 @@ namespace sympp {
     std::optional<sym> product::simplify(double ratio,
                                          complexity_lambda measure_function) {
 
-
         // Collect common powers (always reduces expression)
         // eg.: x*x*x*x -> x^4
         collect();
-
 
         // Treat 1-element sum: (a) -> a (always reduces expression)
         if (child_nodes_.size() == 1) {

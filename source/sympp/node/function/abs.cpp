@@ -12,6 +12,7 @@
 #include <sympp/functions/symbolic.h>
 #include <sympp/node/terminal/integer.h>
 #include <sympp/node/terminal/number_interface.h>
+#include <sympp/node/terminal/rational.h>
 
 namespace sympp {
 
@@ -36,38 +37,52 @@ namespace sympp {
                           const std::vector<double> &double_values) const {
 
         auto ce = this->child_nodes_.front().root_node()->evaluate_sym(
-                bool_values, int_values, double_values);
+            bool_values, int_values, double_values);
 
         if (ce.is_number()) {
 
             auto p = ce.root_node_as<number_interface>();
 
-            if(ce.is_integer_number()){
+            if (ce.is_integer_number()) {
 
-                if (static_cast<double>(p->operator int ()) < 0) {
-                    return sym(-1 * (p->operator int ()));
+                if (p->operator int() < 0) {
+                    return sym(-1 * (p->operator int()));
                 } else {
-                    return sym(p->operator int ());
+                    return sym(p->operator int());
                 }
-
             }
 
-            if(ce.is_real_number()){
-
-                if (static_cast<double>(p->operator double ()) < 0) {
-                    return sym(-1 * (p->operator double ()));
-                } else {
-                    return sym(p->operator double ());
-                }
-
+            if (ce.is_boolean_number()) {
+                return sym(p->operator bool());
             }
+
+            if (ce.is_rational_number()) {
+
+                auto rat = ce.root_node_as<rational>();
+                if (rat->numerator() < 0 || rat->denominator() < 0) {
+                    return sym(rat->mul(integer(-1)).simplify());
+                } else {
+                    return sym(rat->mul(integer(1)).simplify());
+                }
+            }
+
+            if (ce.is_real_number()) {
+
+                if (static_cast<double>(p->operator double()) < 0) {
+                    return sym(-1 * (p->operator double()));
+                } else {
+                    return sym(p->operator double());
+                }
+            }
+
+            std::cout << " rat2 " << std::endl;
 
             return sym(abs(ce));
 
         } else {
+            std::cout << " rat " << std::endl;
             return sym(abs(ce));
         }
-
     }
 
     node_lambda abs::lambdify() const {

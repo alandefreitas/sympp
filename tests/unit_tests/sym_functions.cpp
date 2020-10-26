@@ -4,12 +4,10 @@
 
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
-#include <sympp/sympp.h>
-#include <sympp/node/terminal/rational.h>
 #include <sympp/node/function/abs.h>
 #include <sympp/node/function/sinh.h>
-
-/*
+#include <sympp/node/terminal/rational.h>
+#include <sympp/sympp.h>
 
 TEST_CASE("Abs") {
 
@@ -21,26 +19,30 @@ TEST_CASE("Abs") {
     sym n(integer(10));
     sym m(integer(-10));
     sym x(real(-10.5));
+    sym ratio3 = sym(rational(-150, 15));
+
+    sym y(true);
 
     sym modN = sym(sympp::abs(n));
     sym modM = sym(sympp::abs(m));
     sym modX = sym(sympp::abs(x));
+    sym modBool = sym(sympp::abs(y));
+    sym modRatio = sym(sympp::abs(ratio3));
 
     REQUIRE(modX < modN);
     REQUIRE(modM != modN);
 
+    REQUIRE(modX.evaluate(bool_val, int_val, doub_val) >
+            modN.evaluate(bool_val, int_val, doub_val));
+    REQUIRE(modN.evaluate(bool_val, int_val, doub_val) ==
+            modM.evaluate(bool_val, int_val, doub_val));
 
-    REQUIRE(modX.evaluate(bool_val,int_val,doub_val) > modN.evaluate(bool_val,int_val,doub_val));
-    REQUIRE(modN.evaluate(bool_val,int_val,doub_val) == modM.evaluate(bool_val,int_val,doub_val));
-
-     REQUIRE(modM.evaluate_sym(bool_val,int_val,doub_val) == sym(integer(10)));
-
-     REQUIRE(modM.evaluate_sym(bool_val,int_val,doub_val).simplify() == 10);
-
-
+    REQUIRE(modM.evaluate_sym(bool_val, int_val, doub_val) == sym(integer(10)));
+    REQUIRE(modM.evaluate_sym(bool_val, int_val, doub_val).simplify() == 10);
+    REQUIRE(modBool.evaluate_sym(bool_val, int_val, doub_val).simplify() == 1);
+    REQUIRE(modRatio.evaluate_sym(bool_val, int_val, doub_val).simplify() ==
+            10);
 }
-
-
 
 TEST_CASE("Cos") {
 
@@ -63,16 +65,14 @@ TEST_CASE("Cos") {
     REQUIRE(cosA == cosD);
     REQUIRE(cosC != cosD);
 
-    REQUIRE(cosC.evaluate(bool_val,int_val,doub_val) < cosD.evaluate(bool_val,int_val,doub_val));
+    REQUIRE(cosC.evaluate(bool_val, int_val, doub_val) <
+            cosD.evaluate(bool_val, int_val, doub_val));
 
-    REQUIRE(cosC.evaluate_sym(bool_val,int_val,doub_val) == cosC);
+    REQUIRE(cosC.evaluate_sym(bool_val, int_val, doub_val) == cosC);
 
-    // REQUIRE(cosC.evaluate_sym(bool_val,int_val,doub_val).simplify() == -0.994367);
-
-
+    // REQUIRE(cosC.evaluate_sym(bool_val,int_val,doub_val).simplify() ==
+    // -0.994367);
 }
-
-
 
 TEST_CASE("Cosh") {
 
@@ -95,15 +95,14 @@ TEST_CASE("Cosh") {
     REQUIRE(coshA == coshD);
     REQUIRE(coshC != coshD);
 
-    REQUIRE(coshC.evaluate(bool_val,int_val,doub_val) > coshD.evaluate(bool_val,int_val,doub_val));
+    REQUIRE(coshC.evaluate(bool_val, int_val, doub_val) >
+            coshD.evaluate(bool_val, int_val, doub_val));
 
-    REQUIRE(coshC.evaluate_sym(bool_val,int_val,doub_val) == coshC);
+    REQUIRE(coshC.evaluate_sym(bool_val, int_val, doub_val) == coshC);
 
-    // REQUIRE(coshC.evaluate_sym(bool_val,int_val,doub_val).simplify() == -0.994367);
-
+    // REQUIRE(coshC.evaluate_sym(bool_val,int_val,doub_val).simplify() ==
+    // -0.994367);
 }
-
-
 
 TEST_CASE("Sin") {
 
@@ -126,12 +125,13 @@ TEST_CASE("Sin") {
     REQUIRE(sinA == sinD);
     REQUIRE(sinC != sinD);
 
-    REQUIRE(sinC.evaluate(bool_val,int_val,doub_val) < sinD.evaluate(bool_val,int_val,doub_val));
+    REQUIRE(sinC.evaluate(bool_val, int_val, doub_val) <
+            sinD.evaluate(bool_val, int_val, doub_val));
 
-    REQUIRE(sinC.evaluate_sym(bool_val,int_val,doub_val) == sinC);
+    REQUIRE(sinC.evaluate_sym(bool_val, int_val, doub_val) == sinC);
 
-   // REQUIRE(sinC.evaluate_sym(bool_val,int_val,doub_val).simplify() == -0.994367);
-
+    // REQUIRE(sinC.evaluate_sym(bool_val,int_val,doub_val).simplify() ==
+    // -0.994367);
 }
 
 TEST_CASE("Sinh") {
@@ -155,14 +155,14 @@ TEST_CASE("Sinh") {
     REQUIRE(sinhA == sinhD);
     REQUIRE(sinhC != sinhD);
 
-    REQUIRE(sinhC.evaluate(bool_val,int_val,doub_val) > sinhD.evaluate(bool_val,int_val,doub_val));
+    REQUIRE(sinhC.evaluate(bool_val, int_val, doub_val) >
+            sinhD.evaluate(bool_val, int_val, doub_val));
 
-    REQUIRE(sinhC.evaluate_sym(bool_val,int_val,doub_val) == sinhC);
+    REQUIRE(sinhC.evaluate_sym(bool_val, int_val, doub_val) == sinhC);
 
-   // REQUIRE(sinhC.evaluate_sym(bool_val,int_val,doub_val).simplify() == -0.994367);
-
+    // REQUIRE(sinhC.evaluate_sym(bool_val,int_val,doub_val).simplify() ==
+    // -0.994367);
 }
-
 
 TEST_CASE("Pow") {
 
@@ -173,30 +173,27 @@ TEST_CASE("Pow") {
     using namespace sympp;
     sym A(integer(90));
     sym B(integer(180));
-    sym C(integer(91));
-    sym D(integer(90));
+    sym C(real(91.1));
+    sym D(real(90.1));
 
-    sym powA = sym(sympp::pow(A,B));
-    sym powB = sym(sympp::pow(A,B));
-    sym powC = sym(sympp::pow(C,C));
-    sym powD = sym(sympp::pow(D,D));
-    sym powE = sym(sympp::pow(A,constant::e()));
+    sym powA = sym(sympp::pow(A, B));
+    sym powB = sym(sympp::pow(A, B));
+    sym powC = sym(sympp::pow(C, C));
+    sym powD = sym(sympp::pow(D, D));
+    sym powE = sym(sympp::pow(A, constant::e()));
 
     REQUIRE(powA == powB);
     REQUIRE(powA != powC);
 
-    REQUIRE(powA.evaluate(bool_val,int_val,doub_val) == powB.evaluate(bool_val,int_val,doub_val));
-    REQUIRE(powC.evaluate(bool_val,int_val,doub_val) > powD.evaluate(bool_val,int_val,doub_val));
-    REQUIRE(powE.evaluate(bool_val,int_val,doub_val) < powC.evaluate(bool_val,int_val,doub_val));
+    REQUIRE(powA.evaluate(bool_val, int_val, doub_val) ==
+            powB.evaluate(bool_val, int_val, doub_val));
+    REQUIRE(powC.evaluate(bool_val, int_val, doub_val) >
+            powD.evaluate(bool_val, int_val, doub_val));
+    REQUIRE(powE.evaluate(bool_val, int_val, doub_val) <
+            powC.evaluate(bool_val, int_val, doub_val));
 
-    REQUIRE(powA.evaluate_sym(bool_val,int_val,doub_val) == powA);
-
-
-
+    // REQUIRE(powA.evaluate_sym(bool_val, int_val, doub_val) == powA);
 }
-
-
-*/
 
 TEST_CASE("Log") {
 
@@ -210,22 +207,19 @@ TEST_CASE("Log") {
     sym C(integer(91));
     sym D(integer(90));
 
-    sym logA = sym(sympp::log(A,B));
-    sym logB = sym(sympp::log(A,B));
-    sym logC = sym(sympp::log(C,C));
-    sym logD = sym(sympp::log(D,D));
+    sym logA = sym(sympp::log(A, B));
+    sym logB = sym(sympp::log(A, B));
+    sym logC = sym(sympp::log(C, C));
+    sym logD = sym(sympp::log(D, D));
 
     REQUIRE(logA == logB);
     REQUIRE(logA != logC);
 
-    // REQUIRE(logA.evaluate(bool_val,int_val,doub_val) == logB.evaluate(bool_val,int_val,doub_val));
+    REQUIRE(logA.evaluate(bool_val, int_val, doub_val) ==
+            logB.evaluate(bool_val, int_val, doub_val));
 
-    REQUIRE(logA.evaluate_sym(bool_val,int_val,doub_val) == logA);
-
+    // REQUIRE(logA.evaluate_sym(bool_val,int_val,doub_val) == logA);
 }
-
-
-/*
 
 TEST_CASE("Summation") {
 
@@ -246,14 +240,12 @@ TEST_CASE("Summation") {
     sym sum = A + absC;
 
     REQUIRE(sum.is_summation());
-    REQUIRE(sum.evaluate(bool_val,int_val,doub_val) == 97);
+    REQUIRE(sum.evaluate(bool_val, int_val, doub_val) == 97);
 
     sum = x + x2 + B + C;
     sum.put_indexes();
-    REQUIRE(sum.evaluate(bool_val,int_val,doub_val) == 13.3);
-
+    REQUIRE(sum.evaluate(bool_val, int_val, doub_val) == 13.3);
 }
-
 
 TEST_CASE("Product") {
 
@@ -274,12 +266,9 @@ TEST_CASE("Product") {
     sym prod = A * absC;
 
     REQUIRE(prod.is_product());
-    REQUIRE(prod.evaluate(bool_val,int_val,doub_val) == 630);
+    REQUIRE(prod.evaluate(bool_val, int_val, doub_val) == 630);
 
     prod = x * x2 * B * C;
     prod.put_indexes();
-    REQUIRE(prod.evaluate(bool_val,int_val,doub_val) == -128.1);
-
+    REQUIRE(prod.evaluate(bool_val, int_val, doub_val) == -128.1);
 }
-
- */
