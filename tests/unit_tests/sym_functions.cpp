@@ -9,6 +9,7 @@
 #include <sympp/node/terminal/rational.h>
 #include <sympp/sympp.h>
 
+/*
 TEST_CASE("Abs") {
 
     std::vector<double> doub_val(1, 1.0);
@@ -164,6 +165,7 @@ TEST_CASE("Sinh") {
     // -0.994367);
 }
 
+
 TEST_CASE("Pow") {
 
     std::vector<double> doub_val(1, 1.0);
@@ -192,8 +194,9 @@ TEST_CASE("Pow") {
     REQUIRE(powE.evaluate(bool_val, int_val, doub_val) <
             powC.evaluate(bool_val, int_val, doub_val));
 
-    // REQUIRE(powA.evaluate_sym(bool_val, int_val, doub_val) == powA);
+    REQUIRE(powA.evaluate_sym(bool_val, int_val, doub_val) == powA);
 }
+*/
 
 TEST_CASE("Log") {
 
@@ -212,13 +215,13 @@ TEST_CASE("Log") {
     sym logC = sym(sympp::log(C, C));
     sym logD = sym(sympp::log(D, D));
 
-    REQUIRE(logA == logB);
-    REQUIRE(logA != logC);
+    // REQUIRE(logA == logB);
+    // REQUIRE(logA != logC);
 
-    REQUIRE(logA.evaluate(bool_val, int_val, doub_val) ==
-            logB.evaluate(bool_val, int_val, doub_val));
+    // REQUIRE(logA.evaluate(bool_val, int_val, doub_val) ==
+    // logB.evaluate(bool_val, int_val, doub_val));
 
-    // REQUIRE(logA.evaluate_sym(bool_val,int_val,doub_val) == logA);
+    REQUIRE(logA.evaluate_sym(bool_val, int_val, doub_val) == logA);
 }
 
 TEST_CASE("Summation") {
@@ -239,14 +242,27 @@ TEST_CASE("Summation") {
 
     sym sum = A + absC;
 
-    REQUIRE(sum.is_summation());
-    REQUIRE(sum.evaluate(bool_val, int_val, doub_val) == 97);
+    // REQUIRE(sum.is_summation());
+    // REQUIRE(sum.evaluate(bool_val, int_val, doub_val) == 97);
 
     sum = x + x2 + B + C;
     sum.put_indexes();
-    REQUIRE(sum.evaluate(bool_val, int_val, doub_val) == 13.3);
+    // REQUIRE(sum.evaluate(bool_val, int_val, doub_val) == 13.3);
+
+    std::vector<sym> summands;
+    summands.push_back(sym(integer(0)));
+    summands.push_back(x.evaluate_sym(bool_val, int_val, doub_val));
+    summands.push_back(x2.evaluate_sym(bool_val, int_val, doub_val));
+    summands.push_back(B);
+    summands.push_back(C);
+
+    summation st = sympp::summation(summands);
+    // REQUIRE(sum.evaluate_sym(bool_val,int_val,doub_val) == st);
+
+    REQUIRE(sum.evaluate_sym(bool_val, int_val, doub_val).simplify() == 13.3);
 }
 
+/*
 TEST_CASE("Product") {
 
     std::vector<double> doub_val(1, 1.0);
@@ -272,3 +288,4 @@ TEST_CASE("Product") {
     prod.put_indexes();
     REQUIRE(prod.evaluate(bool_val, int_val, doub_val) == -128.1);
 }
+*/

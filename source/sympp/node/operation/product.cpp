@@ -271,9 +271,9 @@ namespace sympp {
             sym &s = *i;
             if (s.is_product()) {
                 auto p = s.root_node_as<product>();
+                i = child_nodes_.erase(i);
                 child_nodes_.insert(child_nodes_.end(), p->child_nodes_.begin(),
                                     p->child_nodes_.end());
-                i = child_nodes_.erase(i);
             } else {
                 ++i;
             }
@@ -357,8 +357,6 @@ namespace sympp {
 
         bool not_one = !numbers.is_number() ||
                        !numbers.root_node_as<number_interface>()->is_one();
-
-        std::cout << " numbers " << numbers << std::endl << std::endl;
 
         if (not_one) {
 

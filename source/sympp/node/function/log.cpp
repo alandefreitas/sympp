@@ -314,10 +314,9 @@ namespace sympp {
         // log_a(b) -> log(b) *
         if (a.is_integer_number() &&
             (a.root_node_as<number_interface>()->operator int() > 0)) {
-            product p(
-                sym(real(std::log(
-                    a.root_node_as<number_interface>()->operator double()))),
-                sym(pow(ln(b), sym(-1))));
+            product p(sym(real(std::log(
+                          a.root_node_as<number_interface>()->operator int()))),
+                      sym(pow(ln(b), sym(-1))));
             auto s = p.simplify(ratio, func);
             return s ? *s : sym(p);
         }

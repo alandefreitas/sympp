@@ -18,6 +18,7 @@
 #include <sympp/node/terminal/real.h>
 
 namespace sympp {
+
     int number_interface::compare(const node_interface &node) const {
 
         if (node.type() == typeid(constant)) {
