@@ -383,6 +383,7 @@ namespace sympp {
 
     void summation::absorb_sum_of_sums() {
         // find all internal sums
+
         auto is_not_sum = [](const auto &child) {
             return child.type() == typeid(summation);
         };
@@ -395,9 +396,24 @@ namespace sympp {
 
         // move their terms to the main sum
         for (auto &internal_sum : internal_sums) {
-            child_nodes_.insert(child_nodes_.end(),
-                                std::make_move_iterator(internal_sum.begin()),
-                                std::make_move_iterator(internal_sum.end()));
+            // When a term is simple, just insert.
+            if (internal_sum.size() == 1) {
+                child_nodes_.push_back(internal_sum);
+            } else {
+                // When child_node is empty, dont have iterator to end()
+                if (!child_nodes_.empty()) {
+                    child_nodes_.insert(
+                        child_nodes_.end(),
+                        std::make_move_iterator(internal_sum.begin()),
+                        std::make_move_iterator(internal_sum.end()));
+                } else {
+                    auto i = internal_sum.begin();
+                    while (i != internal_sum.end()) {
+                        child_nodes_.push_back(*i);
+                        ++i;
+                    }
+                }
+            }
         }
     }
 

@@ -31,6 +31,7 @@ namespace sympp {
     double log::evaluate(const std::vector<uint8_t> &bool_values,
                          const std::vector<int> &int_values,
                          const std::vector<double> &double_values) const {
+
         if (child_nodes_.back().compare(constant::e()) != 0) {
             return std::log(child_nodes_.front().evaluate(
                        bool_values, int_values, double_values)) /
@@ -49,6 +50,7 @@ namespace sympp {
             bool_values, int_values, double_values);
         auto b = child_nodes_.back().root_node()->evaluate_sym(
             bool_values, int_values, double_values);
+
         sym r(log(x, b));
         r.simplify();
         return r;
@@ -289,24 +291,31 @@ namespace sympp {
         }
 
         // log_c(b) -> log(c) * ln(b)^-1
-        if (a.is_number() && a.is_real_number() && a.operator double() > 0.0) {
-            product p(sym(real(std::log(a.operator double()))),
-                      sym(pow(ln(b), sym(-1))));
+        if (a.is_number() && a.is_real_number() &&
+            a.root_node_as<number_interface>()->operator double() > 0.0) {
+            product p(
+                sym(real(std::log(
+                    a.root_node_as<number_interface>()->operator double()))),
+                sym(pow(ln(b), sym(-1))));
             auto s = p.simplify(ratio, func);
             return s ? *s : sym(p);
         }
 
         // log_e(b) -> log(b) * ln(a)^-1
         if (a.compare(constant::e()) == 0 && b.is_number()) {
-            product p(sym(real(std::log(b.operator double()))),
-                      sym(pow(ln(a), sym(-1))));
+            product p(
+                sym(real(std::log(
+                    b.root_node_as<number_interface>()->operator double()))),
+                sym(pow(ln(a), sym(-1))));
             auto s = p.simplify(ratio, func);
             return s ? *s : sym(p);
         }
 
         // log_a(b) -> log(b) *
-        if (a.is_integer_number() && a.operator int() > 0) {
-            product p(sym(real(std::log(a.operator double()))),
+        if (a.is_integer_number() &&
+            (a.root_node_as<number_interface>()->operator int() > 0)) {
+            product p(sym(real(std::log(
+                          a.root_node_as<number_interface>()->operator int()))),
                       sym(pow(ln(b), sym(-1))));
             auto s = p.simplify(ratio, func);
             return s ? *s : sym(p);

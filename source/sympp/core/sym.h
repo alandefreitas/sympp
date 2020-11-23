@@ -446,6 +446,9 @@ namespace sympp {
         /// Check if symbol is double
         [[nodiscard]] bool is_real_number() const;
 
+        /// Check if symbol is rational
+        [[nodiscard]] bool is_rational_number() const;
+
         /// Check if symbol is zero (and numeric)
         [[nodiscard]] bool is_zero() const;
 

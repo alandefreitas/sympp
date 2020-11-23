@@ -12,6 +12,7 @@
 #include <sympp/node/operation/summation.h>
 #include <sympp/node/terminal/constant.h>
 #include <sympp/node/terminal/integer.h>
+#include <sympp/node/terminal/real.h>
 #include <vector>
 
 namespace sympp {
@@ -263,18 +264,35 @@ namespace sympp {
     std::optional<sym> product::collect() {
         // Absorb product of product
         // eg.: a * (a * a) * a -> a * a * a * a
+
+        std::vector<sym> new_child;
         auto i = child_nodes_.begin();
         while (i != child_nodes_.end()) {
             sym &s = *i;
             if (s.is_product()) {
                 auto p = s.root_node_as<product>();
-                child_nodes_.insert(child_nodes_.end(), p->child_nodes_.begin(),
-                                    p->child_nodes_.end());
-                i = child_nodes_.erase(i);
+                // child_nodes_.insert(child_nodes_.end(), p->child_nodes_.begin(),
+                //                    p->child_nodes_.end());
+                auto iter = p->child_nodes_.begin();
+                while(iter != p->child_nodes_.end()){
+                    sym &x = *iter;
+                    if(x.is_product()){
+                        auto xp = x.root_node_as<product>();
+                        new_child.insert(new_child.end(), xp->child_nodes_.begin(), xp->child_nodes_.end());
+                        ++iter;
+                    }else{
+                        new_child.insert(new_child.end(), x);
+                        ++iter;
+                    }
+                }
+                ++i;
             } else {
+                new_child.insert(new_child.end(),*i);
                 ++i;
             }
         }
+
+        child_nodes_ = new_child;
 
         // Group common terms
         // eg.: x*x*x -> x^3
@@ -338,10 +356,17 @@ namespace sympp {
         }
 
         // Move numbers to the front (always reduces expression)
-        sym numbers(integer(1));
+        sym numbers(real(1.0));
         for (auto j = child_nodes_.begin(); j != child_nodes_.end();) {
             if (j->is_number()) {
-                numbers = numbers * sym(*j);
+
+                if(numbers.is_product()){
+                    auto p = numbers.root_node_as<product>();
+                    p->child_nodes_.push_back(sym(*j));
+                    numbers = product(p->child_nodes_);
+                }else{
+                    numbers = numbers * sym(*j);
+                }
                 if (numbers.is_number() &&
                     numbers.root_node_as<number_interface>()->is_zero()) {
                     return numbers;
@@ -354,9 +379,12 @@ namespace sympp {
 
         bool not_one = !numbers.is_number() ||
                        !numbers.root_node_as<number_interface>()->is_one();
+
         if (not_one) {
+
             numbers.simplify();
             child_nodes_.insert(child_nodes_.begin(), numbers);
+
         }
 
         return std::nullopt;
@@ -400,6 +428,7 @@ namespace sympp {
 
     std::optional<sym> product::simplify(double ratio,
                                          complexity_lambda measure_function) {
+
         // Collect common powers (always reduces expression)
         // eg.: x*x*x*x -> x^4
         collect();

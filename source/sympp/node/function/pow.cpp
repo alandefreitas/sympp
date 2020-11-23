@@ -34,7 +34,9 @@ namespace sympp {
     double pow::evaluate(const std::vector<uint8_t> &bool_values,
                          const std::vector<int> &int_values,
                          const std::vector<double> &double_values) const {
+
         if (this->child_nodes_.front().compare(constant::e()) == 0) {
+
             double e = 2.71828182845;
             auto exponent = this->child_nodes_.back().root_node();
             return std::pow(
@@ -53,6 +55,7 @@ namespace sympp {
     sym pow::evaluate_sym(const std::vector<uint8_t> &bool_values,
                           const std::vector<int> &int_values,
                           const std::vector<double> &double_values) const {
+
         if (this->child_nodes_.front().compare(constant::e()) == 0) {
             return sym(pow(constant::e(),
                            this->child_nodes_.back().root_node()->evaluate_sym(

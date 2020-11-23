@@ -22,9 +22,9 @@ namespace sympp {
 
     sym csc(const sym &);
 
-    sym sinh(const sym &);
+    sym Sinh(const sym &);
 
-    sym cosh(const sym &);
+    sym Cosh(const sym &);
 
     sym ln(const sym &);
 

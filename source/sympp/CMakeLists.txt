@@ -63,7 +63,7 @@ add_library(sympp
 
         # Header to include everything
         sympp.h
-)
+        )
 
 target_include_directories(sympp
         PUBLIC $<BUILD_INTERFACE:${SYMPP_ROOT_DIR}/source>
